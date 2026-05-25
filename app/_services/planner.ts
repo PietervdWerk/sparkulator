@@ -99,7 +99,7 @@ function fractionFromNumber(value: number): Fraction {
   const [mantissa, exponentPart] = normalized.split("e");
   const exponent = exponentPart ? Number(exponentPart) : 0;
   const [wholePart, decimalPart = ""] = mantissa.split(".");
-  const digits = `${wholePart}${decimalPart}`.replace(/^0+(?=\d)/, "") || "0";
+  const digits = `${wholePart}${decimalPart}` || "0";
   let numerator = BigInt(digits);
   let denominator = 10n ** BigInt(decimalPart.length);
 
