@@ -92,6 +92,11 @@ export function PlannerSidebar({
           </div>
         </div>
         <div className="mt-3 grid grid-cols-[auto_1fr_auto] gap-3">
+          {targetMode === "auto" ? (
+            <span className="sr-only" id={targetHintId}>
+              {text.autoTargetHint}
+            </span>
+          ) : null}
           <div>
             <button
               aria-controls="item-picker"
@@ -133,10 +138,7 @@ export function PlannerSidebar({
           </span>
         </div>
         {targetMode === "auto" ? (
-          <p
-            className="mt-2 text-xs font-medium text-[var(--muted)]"
-            id={targetHintId}
-          >
+          <p className="mt-2 text-xs font-medium text-[var(--muted)]">
             {text.autoTargetHint}
           </p>
         ) : null}
