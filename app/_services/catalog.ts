@@ -5,7 +5,8 @@ export const uiText = {
   en: {
     activeTarget: "Current target",
     auto: "Auto",
-    autoTargetHint: "Smallest balanced rate with whole machine counts.",
+    autoTargetHint:
+      "Uses one full-speed target machine and rounds upstream capacity up to whole machines.",
     crewPerMachine: "Crew per machine",
     flow: "Flow",
     language: "Language",
@@ -29,7 +30,7 @@ export const uiText = {
     activeTarget: "Aktives Ziel",
     auto: "Auto",
     autoTargetHint:
-      "Kleinste ausbalancierte Rate mit ganzen Maschinenzahlen.",
+      "Verwendet eine Zielmaschine mit voller Leistung und rundet die vorgelagerte Kapazitaet auf ganze Maschinen auf.",
     crewPerMachine: "Besetzung pro Maschine",
     flow: "Ablauf",
     language: "Sprache",

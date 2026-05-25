@@ -19,7 +19,7 @@
 
 ## What It Does
 
-Sparkulator turns Oddsparks crafting chains into a clear production plan. Pick an item, set the desired output per minute or let the app auto-balance a target rate, choose the Sparks working each machine, and the app calculates the machine counts, recipe flow, and raw input demand needed to keep that target running.
+Sparkulator turns Oddsparks crafting chains into a clear production plan. Pick an item, set the desired output per minute or let the app size the plan from one full-speed target machine, choose the Sparks working each machine, and the app calculates the machine counts, recipe flow, and raw input demand needed to keep that target running.
 
 It is built for players who want to design cleaner automation layouts without doing repeated rate math by hand.
 
@@ -45,7 +45,7 @@ The interactive flow graph is the centerpiece: zoom with the mouse wheel, drag t
 ## Highlights
 
 - Interactive production graph with zoom, drag-to-pan, fullscreen, and resource-rate edges.
-- Optional auto-balanced target rate that finds the smallest output with whole machine counts.
+- Optional auto target mode that plans around one full-speed target machine and rounds upstream capacity to whole machines.
 - Machine count summary for every workstation in the selected plan.
 - Raw demand breakdown in items per minute.
 - Crew presets for Stumpy and Crafty Spark combinations.

@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import { crewOptions, uiText, type CrewOptionId } from "../_services/catalog";
 import {
-  calculateBalancedTargetRate,
+  calculateAutoTargetRate,
   calculatePlan,
   formatRate,
 } from "../_services/planner";
@@ -41,17 +41,16 @@ export function SparkulatorApp() {
     crewOptions.find((option) => option.id === crewOptionId) ?? crewOptions[1];
   const autoTarget = useMemo(
     () =>
-      calculateBalancedTargetRate(
-        selectedItem,
-        crewOption.multiplier,
-        recipeChoice,
-      ),
+      calculateAutoTargetRate(selectedItem, crewOption.multiplier, recipeChoice),
     [crewOption.multiplier, recipeChoice, selectedItem],
   );
   const target = targetMode === "auto" ? autoTarget : manualTarget;
   const plan = useMemo(
-    () => calculatePlan(selectedItem, target, crewOption.multiplier, recipeChoice),
-    [crewOption.multiplier, recipeChoice, selectedItem, target],
+    () =>
+      calculatePlan(selectedItem, target, crewOption.multiplier, recipeChoice, {
+        roundMachines: targetMode === "auto",
+      }),
+    [crewOption.multiplier, recipeChoice, selectedItem, target, targetMode],
   );
   const totalMachines = plan.machines.reduce(
     (sum, summary) => sum + summary.machines,
