@@ -12,6 +12,8 @@ import type {
   RecipeChoice,
 } from "./types";
 
+const MACHINE_ROUNDING_EPSILON = 1e-9;
+
 export function formatRate(value: number, locale = "en-US") {
   if (value >= 100) {
     return new Intl.NumberFormat(locale, {
@@ -56,7 +58,7 @@ function roundMachineCount(value: number) {
     return 0;
   }
 
-  return Math.ceil(value - 1e-9);
+  return Math.ceil(value - MACHINE_ROUNDING_EPSILON);
 }
 
 export function calculateAutoTargetRate(
