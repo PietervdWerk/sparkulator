@@ -4,9 +4,13 @@ import type { ItemId, Language, Recipe, WorkstationId } from "./types";
 export const uiText = {
   en: {
     activeTarget: "Current target",
+    auto: "Auto",
+    autoTargetHint:
+      "Uses one full-speed target machine and rounds upstream capacity up to whole machines.",
     crewPerMachine: "Crew per machine",
     flow: "Flow",
     language: "Language",
+    manual: "Manual",
     machineCount: "Machine count",
     machines: "Machines",
     output: "Output",
@@ -24,9 +28,13 @@ export const uiText = {
   },
   de: {
     activeTarget: "Aktives Ziel",
+    auto: "Auto",
+    autoTargetHint:
+      "Verwendet eine Zielmaschine mit voller Leistung und rundet die vorgelagerte Kapazität auf ganze Maschinen auf.",
     crewPerMachine: "Besetzung pro Maschine",
     flow: "Ablauf",
     language: "Sprache",
+    manual: "Manuell",
     machineCount: "Maschinenanzahl",
     machines: "Maschinen",
     output: "Output",

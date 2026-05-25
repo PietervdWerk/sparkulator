@@ -167,3 +167,5 @@ export type ProductionPlan = {
 export type Language = "en" | "de";
 
 export type RecipeChoice = Partial<Record<ItemId, string>>;
+
+export type TargetMode = "manual" | "auto";

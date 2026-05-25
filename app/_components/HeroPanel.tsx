@@ -1,10 +1,11 @@
 import { items } from "../_services/catalog";
-import type { ItemId } from "../_services/types";
+import type { ItemId, TargetMode } from "../_services/types";
 import { ItemIcon } from "./icons";
 
 type HeroPanelProps = {
   selectedItem: ItemId;
   target: number;
+  targetMode: TargetMode;
   crewLabel: string;
   totalMachines: number;
   rawInputCount: number;
@@ -15,6 +16,7 @@ type HeroPanelProps = {
 export function HeroPanel({
   selectedItem,
   target,
+  targetMode,
   crewLabel,
   totalMachines,
   rawInputCount,
@@ -37,6 +39,7 @@ export function HeroPanel({
               </h2>
               <p className="mt-1 text-sm font-medium text-[var(--muted)]">
                 {format(target)}/min {text.with} {crewLabel}
+                {targetMode === "auto" ? ` (${text.auto})` : ""}
               </p>
             </div>
           </div>

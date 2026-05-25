@@ -12,6 +12,8 @@ import type {
   RecipeChoice,
 } from "./types";
 
+const MACHINE_ROUNDING_EPSILON = 1e-9;
+
 export function formatRate(value: number, locale = "en-US") {
   if (value >= 100) {
     return new Intl.NumberFormat(locale, {
@@ -37,14 +39,48 @@ export function getRecipeForProduct(
   return candidates.find((recipe) => recipe.id === chosenId) ?? candidates[0];
 }
 
+function getOutputPerMachine(
+  item: ItemId,
+  crewMultiplier: number,
+  recipeChoice: RecipeChoice,
+) {
+  const recipe = getRecipeForProduct(item, recipeChoice);
+
+  if (!recipe) {
+    return 0;
+  }
+
+  return recipe.cyclesPerMinuteOneStumpy * recipe.productAmount * crewMultiplier;
+}
+
+function roundMachineCount(value: number) {
+  if (value <= 0) {
+    return 0;
+  }
+
+  return Math.ceil(value - MACHINE_ROUNDING_EPSILON);
+}
+
+export function calculateAutoTargetRate(
+  item: ItemId,
+  crewMultiplier: number,
+  recipeChoice: RecipeChoice,
+): number {
+  return getOutputPerMachine(item, crewMultiplier, recipeChoice);
+}
+
 export function calculatePlan(
   item: ItemId,
   rate: number,
   crewMultiplier: number,
   recipeChoice: RecipeChoice,
+  options?: {
+    roundMachines?: boolean;
+  },
 ): ProductionPlan {
   const raw = new Map<ItemId, number>();
   const machines = new Map<string, MachineSummary>();
+  const roundMachines = options?.roundMachines ?? false;
 
   function walk(
     current: ItemId,
@@ -89,8 +125,11 @@ export function calculatePlan(
       };
     }
 
-    const outputPerMachine =
-      recipe.cyclesPerMinuteOneStumpy * recipe.productAmount * crewMultiplier;
+    const outputPerMachine = getOutputPerMachine(
+      current,
+      crewMultiplier,
+      recipeChoice,
+    );
     const machineCount = currentRate / outputPerMachine;
     const previous = machines.get(recipe.id);
 
@@ -117,7 +156,7 @@ export function calculatePlan(
       item: current,
       rate: currentRate,
       recipe,
-      machines: machineCount,
+      machines: roundMachines ? roundMachineCount(machineCount) : machineCount,
       children,
     };
   }
@@ -129,10 +168,17 @@ export function calculatePlan(
     raw: [...raw.entries()].sort((a, b) =>
       items[a[0]].name.localeCompare(items[b[0]].name),
     ),
-    machines: [...machines.values()].sort((a, b) =>
-      workstations[a.recipe.workstation].name.localeCompare(
-        workstations[b.recipe.workstation].name,
+    machines: [...machines.values()]
+      .map((summary) => ({
+        ...summary,
+        machines: roundMachines
+          ? roundMachineCount(summary.machines)
+          : summary.machines,
+      }))
+      .sort((a, b) =>
+        workstations[a.recipe.workstation].name.localeCompare(
+          workstations[b.recipe.workstation].name,
+        ),
       ),
-    ),
   };
 }
