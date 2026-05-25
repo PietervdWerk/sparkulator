@@ -30,7 +30,7 @@ export const uiText = {
     activeTarget: "Aktives Ziel",
     auto: "Auto",
     autoTargetHint:
-      "Verwendet eine Zielmaschine mit voller Leistung und rundet die vorgelagerte Kapazitaet auf ganze Maschinen auf.",
+      "Verwendet eine Zielmaschine mit voller Leistung und rundet die vorgelagerte Kapazität auf ganze Maschinen auf.",
     crewPerMachine: "Besetzung pro Maschine",
     flow: "Ablauf",
     language: "Sprache",
