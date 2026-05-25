@@ -57,6 +57,7 @@ export function PlannerSidebar({
   const recipeOptions = outputItems.filter(
     (item) => (recipesByProduct[item]?.length ?? 0) > 1,
   );
+  const targetHintId = "target-rate-hint";
 
   return (
     <aside className="grid content-start gap-3 lg:sticky lg:top-4 lg:self-start">
@@ -111,6 +112,7 @@ export function PlannerSidebar({
             </button>
           </div>
           <input
+            aria-describedby={targetMode === "auto" ? targetHintId : undefined}
             id="target-rate"
             className="control-surface h-12 min-w-0 px-3 text-lg font-semibold outline-none transition focus:border-[var(--aether)]/55 focus:ring-2 focus:ring-[var(--aether)]/20"
             min="0"
@@ -131,7 +133,10 @@ export function PlannerSidebar({
           </span>
         </div>
         {targetMode === "auto" ? (
-          <p className="mt-2 text-xs font-medium text-[var(--muted)]">
+          <p
+            className="mt-2 text-xs font-medium text-[var(--muted)]"
+            id={targetHintId}
+          >
             {text.autoTargetHint}
           </p>
         ) : null}
