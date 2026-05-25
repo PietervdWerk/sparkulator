@@ -10,12 +10,14 @@ import {
   workstations,
   type CrewOptionId,
 } from "../_services/catalog";
-import type { ItemId, RecipeChoice } from "../_services/types";
+import type { ItemId, RecipeChoice, TargetMode } from "../_services/types";
 import { ItemIcon } from "./icons";
 
 type PlannerSidebarProps = {
   selectedItem: ItemId;
   targetRate: number;
+  targetMode: TargetMode;
+  autoTargetRate: number;
   crewOptionId: CrewOptionId;
   itemMenuOpen: boolean;
   recipeChoice: RecipeChoice;
@@ -23,6 +25,7 @@ type PlannerSidebarProps = {
   format: (value: number) => string;
   onSelectedItemChange: (item: ItemId) => void;
   onTargetRateChange: (rate: number) => void;
+  onTargetModeChange: (mode: TargetMode) => void;
   onCrewOptionChange: (crewOptionId: CrewOptionId) => void;
   onItemMenuOpenChange: (open: boolean) => void;
   onRecipeChoiceChange: (item: ItemId, recipeId: string) => void;
@@ -37,6 +40,8 @@ type ItemPickerPanelProps = {
 export function PlannerSidebar({
   selectedItem,
   targetRate,
+  targetMode,
+  autoTargetRate,
   crewOptionId,
   itemMenuOpen,
   recipeChoice,
@@ -44,6 +49,7 @@ export function PlannerSidebar({
   format,
   onSelectedItemChange,
   onTargetRateChange,
+  onTargetModeChange,
   onCrewOptionChange,
   onItemMenuOpenChange,
   onRecipeChoiceChange,
@@ -55,12 +61,35 @@ export function PlannerSidebar({
   return (
     <aside className="grid content-start gap-3 lg:sticky lg:top-4 lg:self-start">
       <div className="surface relative z-30 p-4">
-        <label
-          className="text-sm font-semibold text-[var(--evergreen)]"
-          htmlFor="target-rate"
-        >
-          {text.targetRate}
-        </label>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <label
+            className="text-sm font-semibold text-[var(--evergreen)]"
+            htmlFor="target-rate"
+          >
+            {text.targetRate}
+          </label>
+          <div className="flex rounded-md border border-white/50 bg-white/35 p-1 shadow-inner backdrop-blur">
+            {(["manual", "auto"] as const).map((mode) => {
+              const active = targetMode === mode;
+
+              return (
+                <button
+                  aria-pressed={active}
+                  className={`rounded-[5px] px-3 py-1.5 text-xs font-bold transition ${
+                    active
+                      ? "bg-[#274238] text-white shadow-sm"
+                      : "text-[var(--muted)] hover:bg-white/65"
+                  }`}
+                  key={mode}
+                  type="button"
+                  onClick={() => onTargetModeChange(mode)}
+                >
+                  {mode === "manual" ? text.manual : text.auto}
+                </button>
+              );
+            })}
+          </div>
+        </div>
         <div className="mt-3 grid grid-cols-[auto_1fr_auto] gap-3">
           <div>
             <button
@@ -85,9 +114,10 @@ export function PlannerSidebar({
             id="target-rate"
             className="control-surface h-12 min-w-0 px-3 text-lg font-semibold outline-none transition focus:border-[var(--aether)]/55 focus:ring-2 focus:ring-[var(--aether)]/20"
             min="0"
+            readOnly={targetMode === "auto"}
             step="0.25"
             type="number"
-            value={targetRate}
+            value={targetMode === "auto" ? autoTargetRate : targetRate}
             onChange={(event) =>
               onTargetRateChange(
                 event.currentTarget.value === ""
@@ -100,6 +130,11 @@ export function PlannerSidebar({
             /min
           </span>
         </div>
+        {targetMode === "auto" ? (
+          <p className="mt-2 text-xs font-medium text-[var(--muted)]">
+            {text.autoTargetHint}
+          </p>
+        ) : null}
         {itemMenuOpen ? (
           <div
             className="popover-surface absolute left-0 right-0 top-[calc(100%+8px)] z-50 max-h-[min(70vh,560px)] overflow-y-auto p-2.5"

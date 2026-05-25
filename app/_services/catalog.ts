@@ -4,9 +4,12 @@ import type { ItemId, Language, Recipe, WorkstationId } from "./types";
 export const uiText = {
   en: {
     activeTarget: "Current target",
+    auto: "Auto",
+    autoTargetHint: "Smallest balanced rate with whole machine counts.",
     crewPerMachine: "Crew per machine",
     flow: "Flow",
     language: "Language",
+    manual: "Manual",
     machineCount: "Machine count",
     machines: "Machines",
     output: "Output",
@@ -24,9 +27,13 @@ export const uiText = {
   },
   de: {
     activeTarget: "Aktives Ziel",
+    auto: "Auto",
+    autoTargetHint:
+      "Kleinste ausbalancierte Rate mit ganzen Maschinenzahlen.",
     crewPerMachine: "Besetzung pro Maschine",
     flow: "Ablauf",
     language: "Sprache",
+    manual: "Manuell",
     machineCount: "Maschinenanzahl",
     machines: "Maschinen",
     output: "Output",

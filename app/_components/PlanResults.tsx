@@ -1,5 +1,5 @@
 import { items, workstations } from "../_services/catalog";
-import type { ItemId, ProductionPlan } from "../_services/types";
+import type { ItemId, ProductionPlan, TargetMode } from "../_services/types";
 import { FlowGraph } from "./FlowGraph";
 import { ItemIcon, WorkstationIcon } from "./icons";
 
@@ -8,6 +8,7 @@ type PlanResultsProps = {
   plan: ProductionPlan;
   selectedItem: ItemId;
   target: number;
+  targetMode: TargetMode;
   crewLabel: string;
   crewMultiplier: number;
   text: Record<string, string>;
@@ -19,6 +20,7 @@ export function PlanResults({
   plan,
   selectedItem,
   target,
+  targetMode,
   crewLabel,
   crewMultiplier,
   text,
@@ -134,6 +136,7 @@ export function PlanResults({
               <div className="text-xl font-bold">{items[selectedItem].name}</div>
               <div className="text-sm text-[var(--muted)]">
                 {format(target)}/min {text.with} {crewLabel}
+                {targetMode === "auto" ? ` (${text.auto})` : ""}
               </div>
             </div>
           </div>
